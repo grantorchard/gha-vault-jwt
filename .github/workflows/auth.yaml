@@ -15,3 +15,4 @@ jobs:
       - name: Check token
         run: |
           echo $ACTIONS_ID_TOKEN_REQUEST_TOKEN
+          curl --request POST --data { "jwt": "$ACTIONS_ID_TOKEN_REQUEST_TOKEN"} -H "X-Vault-Namespace: admin" https://https://vault-cluster.vault.11eb56d6-0f95-3a99-a33c-0242ac110007.aws.hashicorp.cloud:8200/v1/auth/jwt/login
