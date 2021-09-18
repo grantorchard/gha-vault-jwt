@@ -15,10 +15,10 @@ jobs:
       - name: Get JWT Token
         run: |
           export VAULT_JWT_TOKEN=$(curl -H "Authorization: bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" "$ACTIONS_ID_TOKEN_REQUEST_URL&audience=sigstore" | jq -r '.value')
-          echo "$VAULT_JWT_TOKEN"
+          echo $VAULT_JWT_TOKEN
       - name: Echo JWT Token
         run: |
-          echo "$VAULT_JWT_TOKEN"
+          echo $VAULT_JWT_TOKEN
       # - name: Authenticate to Vault
       #   run: |
       #     curl --request POST -H "X-Vault-Namespace: admin" --data "{ \"jwt\": \"$VAULT_JWT_TOKEN\", \"role\": \"gha-vault-jwt\"}" https://vault-cluster.vault.11eb56d6-0f95-3a99-a33c-0242ac110007.aws.hashicorp.cloud:8200/v1/auth/gha/login
