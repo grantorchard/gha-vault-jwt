@@ -14,8 +14,7 @@ jobs:
 
       - name: Get JWT Token
         run: |
-          curl -H "Authorization: bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" "$ACTIONS_ID_TOKEN_REQUEST_URL&audience=sigstore" | jq -r '.value' >> $GITHUB_ENV
-          echo $GITHUB_ENV
+          echo $(curl -H "Authorization: bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" "$ACTIONS_ID_TOKEN_REQUEST_URL&audience=sigstore" | jq -r '.value')
       # - name: Echo JWT Token
       #   run: |
       #     echo $VAULT_JWT_TOKEN
