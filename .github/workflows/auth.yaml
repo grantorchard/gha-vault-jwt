@@ -19,7 +19,6 @@ jobs:
             path: gha
             secrets: |
                 secrets/data/ci/aws accessKey | AWS_ACCESS_KEY_ID
-            # ...
 
 
 # jobs:
