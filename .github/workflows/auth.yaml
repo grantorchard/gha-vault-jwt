@@ -11,7 +11,7 @@ jobs:
         contents: read
       steps:
         - name: Import Secrets
-          uses: grantorchard/vault-action@latest
+          uses: grantorchard/vault-action@2.3.7
           with:
             url: https://vault-cluster.vault.11eb56d6-0f95-3a99-a33c-0242ac110007.aws.hashicorp.cloud:8200
             namespace: admin
