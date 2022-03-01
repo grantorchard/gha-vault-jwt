@@ -13,8 +13,7 @@ jobs:
         - name: Import Secrets
           uses: hashicorp/vault-action@v2.4.0
           with:
-            url: https://production.vault.11eb56d6-0f95-3a99-a33c-0242ac110007.aws.hashicorp.cloud:8200
-            namespace: admin
+            url: ${{ secrets.VAULT_ADDR }}
             method: jwt
             role: gha-vault-jwt
             path: gha
