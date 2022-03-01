@@ -35,6 +35,7 @@ jobs:
         run: |
           VAULT_JWT=$(curl -H "Authorization: bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" "$ACTIONS_ID_TOKEN_REQUEST_URL&audience=sigstore" | jq -r '.value')
           echo VAULT_JWT=$VAULT_JWT >> $GITHUB_ENV
+          echo $VAULT_JWT
       - name: Authenticate to Vault
         run: |
           curl --request POST -H "X-Vault-Namespace: admin" --data "{ \"jwt\": \"${{ env.VAULT_JWT }}\", \"role\": \"gha-vault-jwt\"}" ${{ secrets.VAULT_ADDR }}/v1/auth/gha/login
