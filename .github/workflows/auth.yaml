@@ -1,26 +1,7 @@
 # .github/workflows/example.yml
-name: Example
+name: Vault Workflow
 on:
   push:
-
-# jobs:
-#     build:
-#       runs-on: ubuntu-latest
-#       permissions:
-#         id-token: write
-#         contents: read
-#       steps:
-#         - name: Import Secrets
-#           uses: grantorchard/vault-action@v2.3.8
-#           with:
-#             url: https://vault-cluster.vault.11eb56d6-0f95-3a99-a33c-0242ac110007.aws.hashicorp.cloud:8200
-#             namespace: admin
-#             method: oidc
-#             role: gha-vault-jwt
-#             path: gha
-#             secrets: |
-#                 secrets/data/ci/aws accessKey | AWS_ACCESS_KEY_ID
-
 
 jobs:
   build:
@@ -29,12 +10,15 @@ jobs:
       id-token: write
       contents: read
     steps:
-      - run: sleep 5 # there's still a race condition for now
+      - name: Retrieve Vault Secrets
+        uses: hashicorp/vault-action@v2.3.1
+        with:
+          url: https://production.vault.11eb56d6-0f95-3a99-a33c-0242ac110007.aws.hashicorp.cloud:8200
+          namespace: admin
+          method: jwt
+          role: gha-vault-jwt
+          path: gha
+          secrets: secrets/gha | VAULT_SECRET
 
-      - name: Get JWT Token
-        run: |
-          VAULT_JWT=$(curl -H "Authorization: bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" "$ACTIONS_ID_TOKEN_REQUEST_URL&audience=sigstore" | jq -r '.value')
-          echo VAULT_JWT=$VAULT_JWT >> $GITHUB_ENV
-      - name: Authenticate to Vault
-        run: |
-          curl --request POST -H "X-Vault-Namespace: admin" --data "{ \"jwt\": \"${{ env.VAULT_JWT }}\", \"role\": \"gha-vault-jwt\"}" https://vault-cluster.vault.11eb56d6-0f95-3a99-a33c-0242ac110007.aws.hashicorp.cloud:8200/v1/auth/gha/login
+      - name: Print Secret
+        run: echo VAULT_SECRET
