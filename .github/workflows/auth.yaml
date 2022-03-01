@@ -3,26 +3,26 @@ name: Example
 on:
   push:
 
-# jobs:
-#     build:
-#       runs-on: ubuntu-latest
-#       permissions:
-#         id-token: write
-#         contents: read
-#       steps:
-#         - name: Import Secrets
-#           uses: hashicorp/vault-action@v2.4.0
-#           with:
-#             url: ${{ secrets.VAULT_ADDR }}
-#             method: jwt
-#             role: gha-vault-jwt
-#             path: gha
-#             secrets: |
-#                 secrets/data/gha test | GHA_TEST
-
-
 jobs:
-  build:
+  action:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - name: Import Secrets
+        uses: hashicorp/vault-action@v2.4.0
+        with:
+          url: https://production.vault.11eb56d6-0f95-3a99-a33c-0242ac110007.aws.hashicorp.cloud:8200
+          method: jwt
+          role: gha-vault-jwt
+          namespace: admin
+          jwtGithubAudience: sigstore
+          path: gha
+          secrets: |
+            secrets/data/gha test | GHA_TEST
+# jobs:
+  curl:
     runs-on: self-hosted
     permissions:
       id-token: write
@@ -40,4 +40,3 @@ jobs:
       - name: Authenticate to Vault
         run: |
           curl --request POST --data "{ \"jwt\": \"${{ env.VAULT_JWT }}\", \"role\": \"gha-vault-jwt\"}" ${{ secrets.VAULT_ADDR }}/v1/auth/gha/login 
-        #
