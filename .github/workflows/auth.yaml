@@ -21,7 +21,7 @@ jobs:
           path: gha
           #jwtGithubAudience: ${{ env.GITHUB_ACTION_REPOSITORY }}
           secrets: |
-            secrets/gha test | VAULT_SECRET
+            secrets/data/gha test | VAULT_SECRET
 
       # - name: Print Secret
       #   run: echo $"{{ steps.secrets.outputs.VAULT_SECRET }}"
