@@ -10,8 +10,10 @@ jobs:
       id-token: write
       contents: read
     steps:
-      - name: Check token
-        run: 'curl -H "Authorization: bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" "$ACTIONS_ID_TOKEN_REQUEST_URL&audience=$GITHUB_ACTION_REPOSITORY"'
+      - name: Retrieve token
+        run: 'VAULT_JWT=$(curl -H "Authorization: bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" "$ACTIONS_ID_TOKEN_REQUEST_URL&audience=sigstore" | jq -r .value)'
+      - name: Print token
+        run: echo $VAULT_JWT
       - name: Retrieve Vault Secrets
         id: secrets
         uses: hashicorp/vault-action@v2.4.0
@@ -27,3 +29,7 @@ jobs:
 
       # - name: Print Secret
       #   run: echo $"{{ steps.secrets.outputs.VAULT_SECRET }}"
+
+
+      # VAULT_JWT=$(curl -H "Authorization: bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" "$ACTIONS_ID_TOKEN_REQUEST_URL&audience=sigstore" | jq -r '.value')
+      #     echo VAULT_JWT=$VAULT_JWT >> $GITHUB_ENV
