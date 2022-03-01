@@ -18,7 +18,7 @@ jobs:
           method: jwt
           role: gha-vault-jwt
           path: gha
-          secrets: secrets/gha | VAULT_SECRET
+          secrets: secrets/gha test | VAULT_SECRET
 
       - name: Print Secret
         run: echo VAULT_SECRET
