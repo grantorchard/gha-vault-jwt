@@ -19,9 +19,9 @@ jobs:
           method: jwt
           role: gha-vault-jwt
           path: gha
-          jwtGithubAudience: ${{ env.GITHUB_ACTION_REPOSITORY }}
+          #jwtGithubAudience: ${{ env.GITHUB_ACTION_REPOSITORY }}
           secrets: |
             secrets/gha test | VAULT_SECRET
 
-      - name: Print Secret
-        run: echo $"{{ steps.secrets.outputs.VAULT_SECRET }}"
+      # - name: Print Secret
+      #   run: echo $"{{ steps.secrets.outputs.VAULT_SECRET }}"
