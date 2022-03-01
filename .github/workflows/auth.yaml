@@ -4,7 +4,7 @@ on:
   push:
 
 jobs:
-  build:
+  pre-build:
     runs-on: ubuntu-latest
     permissions:
       id-token: write
@@ -14,8 +14,8 @@ jobs:
         id: secrets
         uses: hashicorp/vault-action@v2.4.0
         with:
-          url: ${{ secrets.VAULT_ADDR }}
-          namespace: ${{ secrets.VAULT_NAMESPACE }}
+          url: "${{ secrets.VAULT_ADDR }}"
+          namespace: "${{ secrets.VAULT_NAMESPACE }}"
           method: jwt
           role: gha-vault-jwt
           path: gha
